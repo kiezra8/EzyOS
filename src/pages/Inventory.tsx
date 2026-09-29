@@ -6,13 +6,13 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 import { format, differenceInDays, isPast } from 'date-fns';
-import { useAuthStore } from '../../stores/authStore';
-import { useInventoryStore } from '../../stores/inventoryStore';
-import { Button, Badge, Card, Modal, Input, Select, EmptyState, StatCard } from '../ui';
+import { useAuthStore } from '../stores/authStore';
+import { useInventoryStore } from '../stores/inventoryStore';
+import { Button, Badge, Card, Modal, Input, Select, EmptyState, StatCard } from '../components/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { productSchema, batchSchema, type ProductFormData, type BatchFormData } from '../../lib/schemas';
-import type { Product, Batch } from '../../lib/db';
+import { productSchema, batchSchema, type ProductFormData, type BatchFormData } from '../lib/schemas';
+import type { Product, Batch } from '../lib/db';
 
 // ─── Expiry Status Helper ──────────────────────────────────────────────────────
 function getExpiryStatus(expiryDate: string): { label: string; variant: 'danger' | 'warning' | 'success'; days: number } {
@@ -35,7 +35,7 @@ const ProductModal: React.FC<{
   const {
     register, handleSubmit, formState: { errors, isSubmitting }, reset,
   } = useForm<ProductFormData>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema) as any,
     defaultValues: editProduct
       ? {
           name: editProduct.name,
@@ -136,7 +136,7 @@ const BatchModal: React.FC<{
 }> = ({ isOpen, onClose, product, userId }) => {
   const { addBatch } = useInventoryStore();
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue } = useForm<BatchFormData>({
-    resolver: zodResolver(batchSchema),
+    resolver: zodResolver(batchSchema) as any,
     defaultValues: {
       product_id: product?.id ?? '',
       batch_number: `BATCH-${Date.now().toString().slice(-6)}`,

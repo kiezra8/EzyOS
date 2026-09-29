@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Settings, User, Bell, Shield, Palette, Save } from 'lucide-react';
-import { useAuthStore } from '../../stores/authStore';
-import { Button, Card, Input, Select } from '../ui';
+import { useAuthStore } from '../stores/authStore';
+import { Button, Card, Input, Select } from '../components/ui';
 
 const SettingsPage: React.FC = () => {
   const { profile, updateProfile } = useAuthStore();
@@ -53,7 +53,7 @@ const SettingsPage: React.FC = () => {
         <Select
           label="Business Type"
           value={form.business_type}
-          onChange={(e) => setForm({ ...form, business_type: e.target.value })}
+          onChange={(e) => setForm({ ...form, business_type: e.target.value as 'retail' | 'wholesale' | 'hybrid' })}
           options={[
             { value: 'retail', label: 'Retail' },
             { value: 'wholesale', label: 'Wholesale' },

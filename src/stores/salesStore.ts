@@ -9,7 +9,7 @@ interface SalesState {
   saleItems: SaleItem[];
   isLoading: boolean;
   loadSales: (userId: string, from?: Date, to?: Date) => Promise<void>;
-  createSale: (userId: string, sale: Omit<Sale, 'id' | 'created_at' | 'updated_at'>, items: Omit<SaleItem, 'id' | 'created_at' | 'sale_id' | 'user_id'>[]) => Promise<Sale>;
+  createSale: (userId: string, sale: Omit<Sale, 'id' | 'user_id' | 'sale_number' | 'created_at' | 'updated_at'>, items: Omit<SaleItem, 'id' | 'created_at' | 'sale_id' | 'user_id'>[]) => Promise<Sale>;
 }
 
 export const useSalesStore = create<SalesState>((set) => ({

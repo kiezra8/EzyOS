@@ -10,7 +10,7 @@
  * 5. Conflict resolution: Server-Wins (remote timestamp > local = use remote).
  */
 
-import { v4 as uuidv4 } from 'uuid'; // We'll use crypto.randomUUID instead
+import type { Table } from 'dexie';
 import { db, type SyncQueueItem } from './db';
 import { supabase, isSupabaseConfigured } from './supabase';
 
@@ -262,7 +262,7 @@ class SyncEngine {
     payload: { eventType: string; new: Record<string, unknown>; old: Record<string, unknown> }
   ) {
     const { eventType, new: newRecord, old: oldRecord } = payload;
-    const dexieTable = db[tableName] as Dexie.Table;
+    const dexieTable = db[tableName] as Table;
 
     try {
       if (eventType === 'DELETE') {
@@ -327,7 +327,7 @@ class SyncEngine {
 
         if (!data || data.length === 0) continue;
 
-        const dexieTable = db[tableName] as Dexie.Table;
+        const dexieTable = db[tableName] as Table;
 
         // Bulk put with server-wins conflict resolution
         await db.transaction('rw', dexieTable, async () => {
@@ -364,17 +364,17 @@ export async function localInsert<T extends { id: string }>(
   table: SyncableTable,
   record: T
 ): Promise<void> {
-  await (db[table] as Dexie.Table).put(record);
+  await (db[table] as Table).put(record);
   await syncEngine.enqueue(table, 'INSERT', record.id, record as unknown as Record<string, unknown>);
 }
 
 export async function localUpdate<T extends { id: string }>(
   table: SyncableTable,
   id: string,
-  changes: Partial<T>,
+  changes: Record<string, any> | Partial<T>,
   fullRecord: T
 ): Promise<void> {
-  await (db[table] as Dexie.Table).update(id, changes);
+  await (db[table] as Table).update(id, changes as any);
   await syncEngine.enqueue(table, 'UPDATE', id, fullRecord as unknown as Record<string, unknown>);
 }
 
@@ -382,6 +382,6 @@ export async function localDelete(
   table: SyncableTable,
   id: string
 ): Promise<void> {
-  await (db[table] as Dexie.Table).delete(id);
+  await (db[table] as Table).delete(id);
   await syncEngine.enqueue(table, 'DELETE', id, { id });
 }

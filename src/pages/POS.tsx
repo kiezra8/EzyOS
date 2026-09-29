@@ -5,12 +5,11 @@ import {
   Package, AlertCircle, Percent,
 } from 'lucide-react';
 import clsx from 'clsx';
-import { useAuthStore } from '../../stores/authStore';
-import { useInventoryStore } from '../../stores/inventoryStore';
-import { usePOSStore } from '../../stores/inventoryStore';
-import { useSalesStore } from '../../stores/salesStore';
-import { Button, Badge, Input, Modal } from '../ui';
-import type { Product } from '../../lib/db';
+import { useAuthStore } from '../stores/authStore';
+import { useInventoryStore, usePOSStore } from '../stores/inventoryStore';
+import { useSalesStore } from '../stores/salesStore';
+import { Button, Badge, Input, Modal } from '../components/ui';
+import type { Product } from '../lib/db';
 import { format } from 'date-fns';
 
 const PAYMENT_METHODS = [

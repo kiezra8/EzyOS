@@ -10,11 +10,10 @@ import {
 } from 'recharts';
 import { format, startOfDay, endOfDay, subDays } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../stores/authStore';
-import { useInventoryStore } from '../../stores/inventoryStore';
-import { useSalesStore, generateReport } from '../../stores/salesStore';
-import { StatCard, Card, Badge } from '../ui';
-import type { ReportData } from '../../stores/salesStore';
+import { useAuthStore } from '../stores/authStore';
+import { useInventoryStore } from '../stores/inventoryStore';
+import { useSalesStore, generateReport, type ReportData } from '../stores/salesStore';
+import { StatCard, Card, Badge } from '../components/ui';
 import clsx from 'clsx';
 
 const CHART_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
@@ -310,7 +309,7 @@ const DashboardPage: React.FC = () => {
                     <Cell key={index} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(v: number) => [`${currency} ${v.toFixed(2)}`, '']} />
+                <Tooltip formatter={(v: any) => [`${currency} ${Number(v ?? 0).toFixed(2)}`, '']} />
                 <Legend
                   formatter={(value) => <span className="text-xs capitalize text-slate-400">{value}</span>}
                 />
@@ -333,7 +332,7 @@ const DashboardPage: React.FC = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
                 <XAxis type="number" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis type="category" dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} width={100} />
-                <Tooltip formatter={(v: number) => [`${currency} ${v.toFixed(2)}`, 'Revenue']} />
+                <Tooltip formatter={(v: any) => [`${currency} ${Number(v ?? 0).toFixed(2)}`, 'Revenue']} />
                 <Bar dataKey="revenue" fill="#6366f1" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>

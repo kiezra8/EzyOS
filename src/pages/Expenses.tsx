@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Trash2, ReceiptText, Filter } from 'lucide-react';
 import { format } from 'date-fns';
-import { useAuthStore } from '../../stores/authStore';
-import { useExpensesStore } from '../../stores/salesStore';
-import { Button, Card, Badge, Modal, Input, Select, EmptyState, StatCard } from '../ui';
+import { useAuthStore } from '../stores/authStore';
+import { useExpensesStore } from '../stores/salesStore';
+import { Button, Card, Badge, Modal, Input, Select, EmptyState, StatCard } from '../components/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { expenseSchema, type ExpenseFormData } from '../../lib/schemas';
+import { expenseSchema, type ExpenseFormData } from '../lib/schemas';
 
 const EXPENSE_CATEGORIES = [
   { value: 'rent', label: '🏢 Rent' },
@@ -37,7 +37,7 @@ const AddExpenseModal: React.FC<{ isOpen: boolean; onClose: () => void; userId: 
 }) => {
   const { addExpense } = useExpensesStore();
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<ExpenseFormData>({
-    resolver: zodResolver(expenseSchema),
+    resolver: zodResolver(expenseSchema) as any,
     defaultValues: {
       expense_date: format(new Date(), 'yyyy-MM-dd'),
       payment_method: 'cash',

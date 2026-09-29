@@ -5,9 +5,9 @@ import {
   ResponsiveContainer, Legend,
 } from 'recharts';
 import { format } from 'date-fns';
-import { useAuthStore } from '../../stores/authStore';
-import { generateReport, getPresetPeriods, type ReportData, type ReportPeriod } from '../../stores/salesStore';
-import { Card, StatCard } from '../ui';
+import { useAuthStore } from '../stores/authStore';
+import { generateReport, getPresetPeriods, type ReportData, type ReportPeriod } from '../stores/salesStore';
+import { Card, StatCard } from '../components/ui';
 import clsx from 'clsx';
 
 const ReportsPage: React.FC = () => {

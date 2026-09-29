@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Store, Lock, Mail, Eye, EyeOff, Building2, ShieldCheck } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, registerSchema, type LoginFormData, type RegisterFormData } from '../../lib/schemas';
-import { useAuthStore } from '../../stores/authStore';
-import { Button, Input, Select } from '../ui';
+import { loginSchema, registerSchema, type LoginFormData, type RegisterFormData } from '../lib/schemas';
+import { useAuthStore } from '../stores/authStore';
+import { Button, Input, Select } from '../components/ui';
 import clsx from 'clsx';
 
 const AuthPage: React.FC = () => {
@@ -13,9 +13,9 @@ const AuthPage: React.FC = () => {
   const { signIn, signUp, isLoading } = useAuthStore();
   const [error, setError] = useState('');
 
-  const loginForm = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
+  const loginForm = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) as any });
   const registerForm = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerSchema) as any,
     defaultValues: { business_type: 'hybrid' },
   });
 
